@@ -1,18 +1,26 @@
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from 'fs';
+import * as path from 'path';
 
 // MUI-based layout template
-const layoutWithMui = `import { ReactNode } from 'react';
+const layoutWithMui = `import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
 import { Container, CssBaseline } from '@mui/material';
 
-interface RootLayoutProps {
-  children: ReactNode;
-}
+const inter = Inter({ subsets: ['latin'] });
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export const metadata: Metadata = {
+  title: 'Next App',
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
         <CssBaseline />
         <Container>{children}</Container>
       </body>
@@ -23,6 +31,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
 // Default layout template
 const layoutDefault = `import { ReactNode } from 'react';
+import { Inter } from 'next/font/google';
+import './globals.css';
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -139,17 +149,17 @@ export default function Home() {
 
 const args = process.argv.slice(2);
 const projectName = args[0];
-const useMui = args.includes("mui");
+const useMui = args.includes('mui');
 
 const layoutContent = useMui ? layoutWithMui : layoutDefault;
 
-fs.writeFileSync(path.join(process.cwd(), "src/app/layout.tsx"), layoutContent);
-fs.writeFileSync(path.join(process.cwd(), "src/app/page.tsx"), pageDefault);
+fs.writeFileSync(path.join(process.cwd(), 'src/app/layout.tsx'), layoutContent);
+fs.writeFileSync(path.join(process.cwd(), 'src/app/page.tsx'), pageDefault);
 
-const packageJsonPath = path.join(process.cwd(), "package.json");
-const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
+const packageJsonPath = path.join(process.cwd(), 'package.json');
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 packageJson.name = projectName;
 
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
-console.log("Templates have been applied successfully");
+console.log('Templates have been applied successfully');
