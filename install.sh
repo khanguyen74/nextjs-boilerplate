@@ -28,8 +28,8 @@ fi
 echo -e "Initializing git..."
 
 if [ -d ".git" ]; then
-
-  rm -r .git
+  echo "Removing .git, need admin access"
+  sudo rm -r .git
 fi
 
 git init
