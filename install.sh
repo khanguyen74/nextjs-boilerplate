@@ -14,6 +14,17 @@ prompt() {
 # prompt for project name
 read -p "Enter project name: " projectName
 
+# Get the current directory name
+currentDir=$(basename "$PWD")
+
+# Rename the current directory to the project name
+if [ "$currentDir" != "$projectName" ]; then
+    echo -e "Changing directory name..."
+    cd ..
+    mv "$currentDir" "$projectName"
+    cd "$projectName"
+fi
+
 echo -e "Initializing git..."
 
 if [ -d ".git"]; then
