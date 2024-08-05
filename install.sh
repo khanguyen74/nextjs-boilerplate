@@ -27,7 +27,8 @@ fi
 
 echo -e "Initializing git..."
 
-if [ -d ".git"]; then
+if [ -d ".git" ]; then
+
   rm -r .git
 fi
 
